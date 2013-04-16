@@ -18,6 +18,7 @@ int main()
 		int iDataCount = 0;
 		int iSearchCount = 0;
 		int iRepetition = 0;
+
 		printf_s( "BinarySearch, LinearSearch Profiling.\nData Count?(10-100000)" );
 		scanf_s( "%d", &iDataCount );
 		printf_s( "\n" );
