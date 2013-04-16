@@ -1,14 +1,6 @@
 
 #pragma once
 
-//#include <crtdbg.h>
-//#define CRTDBG_MAP_ALLOC
-//
-//#ifdef _DEBUG
-//#define new new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-//#endif
-
-
 #include "assert.h"
 #define _DEBUG_BREAK_IF( _CONDITION_ ) assert( !(_CONDITION_) );
 
@@ -60,17 +52,10 @@ public:
 
 protected:
 
-//#ifdef _DEBUG && CRTDBG_MAP_ALLOC
-//	virtual void* internal_new(size_t cnt)
-//	{
-//		return operator new(cnt, _NORMAL_BLOCK, __FILE__, __LINE__);
-//	}
-//#else
 	virtual void* internal_new(size_t cnt)
 	{
 		return operator new(cnt);
 	}
-//#endif
 
 	virtual void internal_delete(void* ptr)
 	{
@@ -268,7 +253,7 @@ public:
 	{
 		if (used + 1 > allocated)
 		{
-			// reallocate(used * 2 +1);
+			// reallocate(used * 2 +1);	// 입력 인덱스가 초과 한경우 기존 2배 +1 갯수 만큼 buffer 조정.
 			// this doesn't work if the element is in the same array. So
 			// we'll copy the element first to be sure we'll get no data
 			// corruption

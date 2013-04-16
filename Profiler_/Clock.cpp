@@ -90,7 +90,7 @@ WORD CClock::CheckFrameSkipping( DWORD *pdwTick)
 
 	//return ( CFS_MOVE | CFS_RENDER);
 	LONGLONG llTickPerFrame = m_llCustomTickPerMillisecond * 1000 / m_iFramePerSecond;
-	::Sleep( 0);	// CPU 를 과도하게 점유하는 것 방지
+	::Sleep( 0);	// CPU 과도한 점유 방지
 
 	LONGLONG llCurrentCustomTick = GetCustomTick();
 	// 로딩 등으로 인해 프레임 간격이 클 때의 처리
