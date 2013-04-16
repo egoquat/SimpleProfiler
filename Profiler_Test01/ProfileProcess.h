@@ -121,6 +121,9 @@ public:
 
 	FILE			*m_Stream;
 
+private:
+	int		m_iFoundIdx;
+
 public:
 	void _binarysearch();
 	void _binarykeysearch();

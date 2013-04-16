@@ -18,15 +18,15 @@ int main()
 		int iDataCount = 0;
 		int iSearchCount = 0;
 		int iRepetition = 0;
-		printf_s( "BinarySearch, LinearSearch Profiling.\nHow many data to array for search? (recommand:100~10000)" );
+		printf_s( "BinarySearch, LinearSearch Profiling.\nData Count?(10-100000)" );
 		scanf_s( "%d", &iDataCount );
 		printf_s( "\n" );
 
-		printf_s( "How much search for profiling?" );
+		printf_s( "Search Count?(1-10000)" );
 		scanf_s( "%d", &iSearchCount );
 		printf_s( "\n" );
 
-		printf_s( "How much repetition ? (recommand: 1~10)" );
+		printf_s( "How much repetition?(1-10)" );
 		scanf_s( "%d", &iRepetition );
 		printf_s( "\n" );
 

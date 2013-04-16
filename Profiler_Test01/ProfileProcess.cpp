@@ -20,13 +20,13 @@ CProfileProcess::~CProfileProcess(void)
 void CProfileProcess::_binarysearch()
 {
 	bool	bPlus = false;
-	int		iFindIndex = 0;
 
 	for( int i = 0; i < m_iProcessCnt; ++i )
 	{
 		int iCurIndex	= m_arrSearchIdxs[i];
 		Item &item_		= m_arrItems[iCurIndex];
-		iFindIndex		= m_arrItems.binary_search( item_ );
+		m_iFoundIdx		= m_arrItems.binary_search( item_ );
+		_DEBUG_BREAK_IF(item_.key != m_iFoundIdx)
 	}
 }
 
@@ -34,14 +34,13 @@ void CProfileProcess::_binarysearch()
 void CProfileProcess::_binarykeysearch()
 {
 	bool	bPlus = false;
-	int		iFindIndex = 0;
 
 	for( int i = 0; i < m_iProcessCnt; ++i )
 	{
 		int iCurIndex	= m_arrSearchIdxs[i];
 		Item &item_		= m_arrItems[iCurIndex];
 		Item &item__	= m_arrItems.binary_search_bykey_returnvalue( item_.key );
-		//_DEBUG_BREAK_IF( item_.key != item__.key );
+		_DEBUG_BREAK_IF( item_.key != item__.key );
 	}
 }
 
@@ -49,13 +48,13 @@ void CProfileProcess::_binarykeysearch()
 void CProfileProcess::_linearsearch()
 {
 	bool	bPlus = false;
-	int		iFindIndex= 0;
 
 	for( int i = 0; i < m_iProcessCnt; ++i )
 	{
 		int iCurIndex = m_arrSearchIdxs[i];
 		Item &item_ = m_arrItems[iCurIndex];
-		iFindIndex = m_arrItems.linear_search( item_ );
+		m_iFoundIdx = m_arrItems.linear_search( item_ );
+		_DEBUG_BREAK_IF( m_iFoundIdx != item_.key )
 	}
 }
 
@@ -198,6 +197,7 @@ void CProfileProcess::_init()
 	m_iRepetition = DEFAULT_REPETITION_CNT;
 
 	m_pProfiler = m_pProfiler->GetThis_();
+	m_iFoundIdx = 0;
 }
 
 void CProfileProcess::_release()
