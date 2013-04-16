@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Clock.h"
+
 #pragma warning ( disable : 4305 4503 4786 4291 4312 4311 4267 4244 4355  )
+
+#define _getRandFloat	(float)((rand() %10000000) * 0.000001f)
 
 #ifdef _DEBUG
 #define	DEBUGOUTPUT(lpText)															\
@@ -45,8 +49,6 @@
 	sprintf_s(szBuffer, 1024, "%s", lpText);	\
 	OutputDebugString( szBuffer );												\
 }	
-
-#include "Clock.h"
 
 template <typename T>
 void	_doshuffle( int iMaxCnt, int iShuffleCnt, T *pData )

@@ -2,8 +2,6 @@
 
 #include <math.h>
 
-#define _getRandFloat	(float)((rand() %10000000) * 0.000001f)
-
 char	*_szFileName	= "Profile_op";
 
 CProfileProcess::CProfileProcess(void)
@@ -60,6 +58,7 @@ void CProfileProcess::_linearsearch()
 
 void CProfileProcess::_process_binarysearch()
 {
+	m_arrItems.sort();
 	for( int i = 0; i < m_iRepetition; ++i )
 	{
 		m_pProfiler->BeginUnit( (unsigned int)METHOD_ARRAY_BINARYSEARCH , _BINARYSEARCH );
@@ -70,6 +69,7 @@ void CProfileProcess::_process_binarysearch()
 
 void CProfileProcess::_process_binarykeysearch()
 {
+	m_arrItems.sortbykey();
 	for( int i = 0; i < m_iRepetition; ++i )
 	{
 		m_pProfiler->BeginUnit( (unsigned int)METHOD_ARRAY_BINARYKEYSEARCH , _BINARYKEYSEARCH );
