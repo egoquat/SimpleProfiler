@@ -735,6 +735,7 @@ private:
 
 inline int	GetRandNumber_( int iMin, int iMax, int iExceptNumber )
 {	
+	if(iMin==iMax) return iMin;
 	int iResultNumber_ = 0;
 	do 
 	{
