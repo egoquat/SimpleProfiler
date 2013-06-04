@@ -130,7 +130,7 @@ void CProfileProcess::_process_output()
 														&ulAve_tick_GrandTotal_ls );
 	float	ratioBS				= (float)ulAve_tick_GrandTotal_ls / (float)ulAve_tick_GrandTotal_bs;
 	float	ratioBKS			= (float)ulAve_tick_GrandTotal_ls / (float)ulAve_tick_GrandTotal_bks;
-	float	ratioLS				= (float)ulAve_tick_GrandTotal_ls / (float)ulAve_tick_GrandTotal_ls;
+	float	ratioLS				= 1.0f;
 
 	iCur += sprintf( szBuffer + iCur,  "Profile Binary / Linear Search - \n" );
 
@@ -145,16 +145,16 @@ void CProfileProcess::_process_output()
 	iCur += sprintf( szBuffer + iCur,  "Total Search call Per Each : %d \n", m_iProcessCnt * m_iRepetition );
 
 	iCur += sprintf( szBuffer + iCur,  "\n" );
-	iCur += sprintf( szBuffer + iCur,  "1. Binary Search	: Ave_Sec(%f), Ave_Sec(%f)\n", 
-					fAve_ms_bs * 0.001f, fAve_ms_GrandTotal_bs * 0.001f );
+	iCur += sprintf( szBuffer + iCur,  "1. Binary Search	: Ave_ms(%f), Ave_ms_total(%f)\n", 
+					fAve_ms_bs, fAve_ms_GrandTotal_bs );
 	
 	iCur += sprintf( szBuffer + iCur,  "\n" );
-	iCur += sprintf( szBuffer + iCur,  "2. Binary KeySearch : Ave_Sec(%f), Ave_Sec(%f)\n", 
-					fAve_ms_bks * 0.001f, fAve_ms_GrandTotal_bks * 0.001f );
+	iCur += sprintf( szBuffer + iCur,  "2. Binary KeySearch : Ave_ms(%f), Ave_ms_total(%f)\n", 
+					fAve_ms_bks, fAve_ms_GrandTotal_bks );
 
 	iCur += sprintf( szBuffer + iCur,  "\n" );
-	iCur += sprintf( szBuffer + iCur,  "3. Linear Search	: Ave_Sec(%f), Ave_Sec(%f)\n", 
-					fAve_ms_ls * 0.001f, fAve_ms_GrandTotal_ls * 0.001f );
+	iCur += sprintf( szBuffer + iCur,  "3. Linear Search	: Ave_ms(%f), Ave_ms_total(%f)\n", 
+					fAve_ms_ls, fAve_ms_GrandTotal_ls );
 
 	iCur += sprintf( szBuffer + iCur,  "\n" );
 	iCur += sprintf( szBuffer + iCur,  " binary : %3.2f Times Faster than linear.\n", ratioBS );
@@ -253,7 +253,8 @@ void CProfileProcess::_destruction()
 {
 	_destruct_testData( m_iDataCnt );
 
-	delete m_pClock;
+	//TEST
+	//delete m_pClock;
 
 	m_pProfiler->DestroyThis();
 

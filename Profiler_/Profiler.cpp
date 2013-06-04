@@ -84,8 +84,7 @@ void CProfiler::BeginUnit( unsigned int uikey, char *lpszName )
 
 	if( -1 ==  iIdx )
 	{
-		
-
+		assert(0 & "");
 		return;
 	}
 

@@ -6,7 +6,7 @@
 
 #include "ProfileProcess.h"
 
-int main()
+int main(void)
 {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
@@ -43,6 +43,4 @@ int main()
 		printf_s( "Continue??? positive:1 nagative:0 " );
 		scanf_s( "%d", &iContinue );
 	}
-
-	return 0;
 }
