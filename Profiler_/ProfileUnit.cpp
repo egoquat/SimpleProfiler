@@ -1,12 +1,5 @@
 #include ".\profileunit.h"
 
-#include <windows.h>
-#include <stdio.h>
-
-//#include "Clock.h"
-#include "util_.h"
-
-
 CProfileUnit::CProfileUnit()
 {
 	Clear();

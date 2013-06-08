@@ -1,15 +1,11 @@
 #pragma once
 
+#include <windows.h>
 #include <Wtypes.h>
-
 #include <assert.h>
-
-#include "Singleton_.h"
-
 
 #define CFS_MOVE		( 0x0001)
 #define CFS_RENDER		( 0x0002)
-
 
 class CClock
 {

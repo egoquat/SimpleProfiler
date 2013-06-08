@@ -1,7 +1,5 @@
 #include ".\profileprocess.h"
 
-#include <math.h>
-
 char	*_szFileName	= "Profile_op";
 
 CProfileProcess::CProfileProcess(void)

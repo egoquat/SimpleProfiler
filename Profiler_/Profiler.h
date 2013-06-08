@@ -1,14 +1,11 @@
 #pragma once
 
-#include "ProfileUnit.h"
-#include "Singleton_.h"
-
 #include <io.h>
 #include <stdio.h>
-
 #include "util_.h"
-
 #include "array_.h"
+#include "ProfileUnit.h"
+#include "Singleton_.h"
 
 class CProfilerFileParser
 {

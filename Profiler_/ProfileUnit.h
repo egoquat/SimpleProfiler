@@ -1,6 +1,9 @@
 #pragma once
 
 #include <WTypes.h>
+#include <windows.h>
+#include <stdio.h>
+#include "util_.h"
 
 #define MAX_PROFILESAMPLENAME	( 64)
 #define MAX_PROFILERESULT		( 128)

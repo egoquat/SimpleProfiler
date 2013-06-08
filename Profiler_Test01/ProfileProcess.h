@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <io.h>
-
+#include <math.h>
 #include "..\profiler_\Clock.h"
 #include "..\Profiler_\array_.h"
 #include "..\Profiler_\Profiler.h"

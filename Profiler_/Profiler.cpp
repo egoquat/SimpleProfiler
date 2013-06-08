@@ -1,9 +1,5 @@
 #include ".\profiler.h"
 
-#include <windows.h>
-#include <assert.h>
-//#include "Clock.h"
-
 CProfiler::CProfiler()
 {
 	Clear();

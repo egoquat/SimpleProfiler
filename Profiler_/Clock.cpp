@@ -1,7 +1,5 @@
 #include ".\clock.h"
 
-#include <windows.h>
-
 CClock::CClock()
 {
 	Clear();
