@@ -67,7 +67,7 @@ protected:
 
 	int m_iNumSample;
 
-	array<CProfileUnit> m_arrProfileUnits;
+	CArray_<CProfileUnit> m_arrProfileUnits;
 	
 	/// @name 전체 시간
 	LONGLONG m_llTotalTimeStart;

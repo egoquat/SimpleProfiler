@@ -16,20 +16,20 @@ typedef __int32			s32;
 
 //! Very simple allocator implementation, containers using it can be used across dll boundaries
 template<typename T>
-class Allocator_
+class CAllocator_
 {
 public:
 
 	//! Destructor
-	virtual ~Allocator_() {}
+	virtual ~CAllocator_() {}
 
-	//! Allocate memory for an array of objects
+	//! Allocate memory for an CArray_ of objects
 	T* allocate(size_t cnt)
 	{
 		return (T*)internal_new(cnt* sizeof(T));
 	}
 
-	//! Deallocate memory for an array of objects
+	//! Deallocate memory for an CArray_ of objects
 	void deallocate(T* ptr)
 	{
 		internal_delete(ptr);
@@ -62,27 +62,27 @@ protected:
 
 };
 
-namespace heap_
+namespace CArrayHeap_
 {
 	//! Sinks an element into the heap.
 	template<class T>
-		inline void heapsink(T*array, s32 element, s32 max)
+		inline void heapsink(T*CArray_, s32 element, s32 max)
 	{
 		while ((element<<1) < max) // there is a left child
 		{
 			s32 j = (element<<1);
 
 			// 만약 우측것이 더 크다면, j 값을 우측것을 가리키게 한다.
-			if (j+1 < max && array[j] < array[j+1])
+			if (j+1 < max && CArray_[j] < CArray_[j+1])
 				j = j+1; // take right child
 
 			// element 값이 보정된 j값보다 작으면 스왑한다.
 			// 즉, 큰값들을 좌측으로 채워 나감
-			if (array[element] < array[j])
+			if (CArray_[element] < CArray_[j])
 			{
-				T t = array[j]; // swap elements
-				array[j] = array[element];
-				array[element] = t;
+				T t = CArray_[j]; // swap elements
+				CArray_[j] = CArray_[element];
+				CArray_[element] = t;
 				element = j;
 			}
 			else
@@ -92,23 +92,23 @@ namespace heap_
 
 	//! Sinks an element into the heap sort by key.
 	template<class T>
-		inline void heapsinkbykey(T*array, s32 element, s32 max)
+		inline void heapsinkbykey(T*CArray_, s32 element, s32 max)
 	{
 		while ((element<<1) < max) // there is a left child
 		{
 			s32 j = (element<<1);
 
 			// 만약 우측것이 더 크다면, j 값을 우측것을 가리키게 한다.
-			if (j+1 < max && array[j].key < array[j+1].key)
+			if (j+1 < max && CArray_[j].key < CArray_[j+1].key)
 				j = j+1; // take right child
 
 			// element 값이 보정된 j값보다 작으면 스왑한다.
 			// 즉, 큰값들을 좌측으로 채워 나감
-			if (array[element].key < array[j].key)
+			if (CArray_[element].key < CArray_[j].key)
 			{
-				T t = array[j]; // swap elements
-				array[j] = array[element];
-				array[element] = t;
+				T t = CArray_[j]; // swap elements
+				CArray_[j] = CArray_[element];
+				CArray_[element] = t;
 				element = j;
 			}
 			else
@@ -121,7 +121,7 @@ namespace heap_
 		inline void heapsort(T* array_, s32 size)
 	{
 		// for heapsink we pretent this is not c++, where
-		// arrays start with index 0. So we decrease the array pointer,
+		// arrays start with index 0. So we decrease the CArray_ pointer,
 		// the maximum always +2 and the element always +1
 
 		T* virtualArray = array_ - 1;
@@ -146,7 +146,7 @@ namespace heap_
 		inline void heapsortbykey(T* array_, s32 size)
 	{
 		// for heapsink we pretent this is not c++, where
-		// arrays start with index 0. So we decrease the array pointer,
+		// arrays start with index 0. So we decrease the CArray_ pointer,
 		// the maximum always +2 and the element always +1
 
 		T* virtualArray = array_ - 1;
@@ -167,22 +167,22 @@ namespace heap_
 	}
 }
 
-template <class T, typename TAlloc = Allocator_<T> >
-class array
+template <class T, typename TAlloc = CAllocator_<T> >
+class CArray_
 {
 
 public:
 
-	//! Default constructor for empty array.
-	array()
+	//! Default constructor for empty CArray_.
+	CArray_()
 		: data(0), allocated(0), used(0),
 		free_when_destroyed(true), is_sorted(true)
 	{
 	}
 
-	//! Constructs an array and allocates an initial chunk of memory.
+	//! Constructs an CArray_ and allocates an initial chunk of memory.
 	/** \param start_count Amount of elements to pre-allocate. */
-	array(u32 start_count)
+	CArray_(u32 start_count)
 		: data(0), allocated(0), used(0),
 		free_when_destroyed(true), is_sorted(true)
 	{
@@ -191,7 +191,7 @@ public:
 
 
 	//! Copy constructor
-	array(const array<T>& other)
+	CArray_(const CArray_<T>& other)
 		: data(0)
 	{
 		*this = other;
@@ -202,7 +202,7 @@ public:
 	//! Destructor.
 	/** Frees allocated memory, if set_free_when_destroyed was not set to
 	false by the user before. */
-	~array()
+	~CArray_()
 	{
 		if (free_when_destroyed)
 		{
@@ -214,8 +214,8 @@ public:
 	}
 
 
-	//! Reallocates the array, make it bigger or smaller.
-	/** \param new_size New size of array. */
+	//! Reallocates the CArray_, make it bigger or smaller.
+	/** \param new_size New size of CArray_. */
 	void reallocate(u32 new_size)
 	{
 		T* old_data = data;
@@ -244,15 +244,15 @@ public:
 	}
 
 
-	//! Adds an element at back of array.
-	/** If the array is too small to add this new element it is made bigger.
-	\param element: Element to add at the back of the array. */
+	//! Adds an element at back of CArray_.
+	/** If the CArray_ is too small to add this new element it is made bigger.
+	\param element: Element to add at the back of the CArray_. */
 	void push_back(const T& element)
 	{
 		if (used + 1 > allocated)
 		{
 			// reallocate(used * 2 +1);	// 입력 인덱스가 초과 한경우 기존 2배 +1 갯수 만큼 buffer 조정.
-			// this doesn't work if the element is in the same array. So
+			// this doesn't work if the element is in the same CArray_. So
 			// we'll copy the element first to be sure we'll get no data
 			// corruption
 
@@ -274,18 +274,18 @@ public:
 	}
 
 
-	//! Adds an element at the front of the array.
-	/** If the array is to small to add this new element, the array is
-	made bigger. Please note that this is slow, because the whole array
+	//! Adds an element at the front of the CArray_.
+	/** If the CArray_ is to small to add this new element, the CArray_ is
+	made bigger. Please note that this is slow, because the whole CArray_
 	needs to be copied for this.
-	\param element Element to add at the back of the array. */
+	\param element Element to add at the back of the CArray_. */
 	void push_front(const T& element)
 	{
 		insert(element);
 	}
 
 
-	//! Insert item into array at specified position.
+	//! Insert item into CArray_ at specified position.
 	/** Please use this only if you know what you are doing (possible
 	performance loss). The preferred method of adding elements should be
 	push_back().
@@ -319,7 +319,7 @@ public:
 	}
 
 
-	//! Clears the array and deletes all allocated memory.
+	//! Clears the CArray_ and deletes all allocated memory.
 	void clear()
 	{
 		for (u32 i=0; i<used; ++i)
@@ -333,9 +333,9 @@ public:
 	}
 
 
-	//! Sets pointer to new array, using this as new workspace.
-	/** \param newPointer: Pointer to new array of elements.
-	\param size: Size of the new array. */
+	//! Sets pointer to new CArray_, using this as new workspace.
+	/** \param newPointer: Pointer to new CArray_ of elements.
+	\param size: Size of the new CArray_. */
 	void set_pointer(T* newPointer, u32 size)
 	{
 		for (u32 i=0; i<used; ++i)
@@ -349,8 +349,8 @@ public:
 	}
 
 
-	//! Sets if the array should delete the memory it uses upon destruction.
-	/** \param f If true, the array frees the allocated memory in its
+	//! Sets if the CArray_ should delete the memory it uses upon destruction.
+	/** \param f If true, the CArray_ frees the allocated memory in its
 	destructor, otherwise not. The default is true. */
 	void set_free_when_destroyed(bool f)
 	{
@@ -358,7 +358,7 @@ public:
 	}
 
 
-	//! Sets the size of the array and allocates new elements if necessary.
+	//! Sets the size of the CArray_ and allocates new elements if necessary.
 	/** Please note: This is only secure when using it with simple types,
 	because no default constructor will be called for the added elements.
 	\param usedNow Amount of elements now used. */
@@ -372,7 +372,7 @@ public:
 
 
 	//! Assignment operator
-	void operator=(const array<T>& other)
+	void operator=(const CArray_<T>& other)
 	{
 		if (data)
 		{
@@ -402,7 +402,7 @@ public:
 
 
 	//! Equality operator
-	bool operator == (const array<T>& other) const
+	bool operator == (const CArray_<T>& other) const
 	{
 		if (used != other.used)
 			return false;
@@ -414,7 +414,7 @@ public:
 	}
 
 	//! Inequality operator
-	bool operator != (const array<T>& other) const
+	bool operator != (const CArray_<T>& other) const
 	{
 		return !(*this==other);
 	}
@@ -456,24 +456,24 @@ public:
 	}
 
 
-	//! Gets a pointer to the array.
-	/** \return Pointer to the array. */
+	//! Gets a pointer to the CArray_.
+	/** \return Pointer to the CArray_. */
 	T* pointer()
 	{
 		return data;
 	}
 
 
-	//! Gets a const pointer to the array.
-	/** \return Pointer to the array. */
+	//! Gets a const pointer to the CArray_.
+	/** \return Pointer to the CArray_. */
 	const T* const_pointer() const
 	{
 		return data;
 	}
 
 
-	//! Get size of array.
-	/** \return Size of elements used in the array. */
+	//! Get size of CArray_.
+	/** \return Size of elements used in the CArray_. */
 	u32 size() const
 	{
 		return used;
@@ -489,15 +489,15 @@ public:
 	}
 
 
-	//! Check if array is empty.
-	/** \return True if the array is empty false if not. */
+	//! Check if CArray_ is empty.
+	/** \return True if the CArray_ is empty false if not. */
 	bool empty() const
 	{
 		return used == 0;
 	}
 
 
-	//! Sorts the array using heapsort.
+	//! Sorts the CArray_ using heapsort.
 	/** There is no additional memory waste and the algorithm performs
 	O(n*log n) in worst case. */
 	void sort()
@@ -505,7 +505,7 @@ public:
 		if (is_sorted || used<2)
 			return;
 
-		heap_::heapsort(data, used);
+		CArrayHeap_::heapsort(data, used);
 		is_sorted = true;
 	}
 
@@ -516,13 +516,13 @@ public:
 		if (is_sorted || used<2)
 			return;
 
-		heap_::heapsortbykey(data, used);
+		CArrayHeap_::heapsortbykey(data, used);
 		is_sorted = true;
 	}
 
 
 	//! Performs a binary search for an element, returns -1 if not found.
-	/** The array will be sorted before the binary search if it is not
+	/** The CArray_ will be sorted before the binary search if it is not
 	already sorted.
 	\param element Element to search for.
 	\return Position of the searched element if it was found,
@@ -553,7 +553,7 @@ public:
 	}
 
 	//! Performs a binary search for an element, returns -1 if not found.
-	/** The array must be sorted prior
+	/** The CArray_ must be sorted prior
 	\param element Element to search for.
 	\return Position of the searched element if it was found, otherwise -1
 	is returned. */
@@ -588,9 +588,9 @@ public:
 		} while((element < data[m] || data[m] < element) && left<=right);
 
 		// this last line equals to:
-		// " while((element != array[m]) && left<=right);"
+		// " while((element != CArray_[m]) && left<=right);"
 		// but we only want to use the '<' operator.
-		// the same in next line, it is "(element == array[m])"
+		// the same in next line, it is "(element == CArray_[m])"
 
 		if (!(element < data[m]) && !(data[m] < element))
 			return m;
@@ -619,9 +619,9 @@ public:
 		} while((key < data[m].key || data[m].key < key) && left<=right);
 
 		// this last line equals to:
-		// " while((element != array[m]) && left<=right);"
+		// " while((element != CArray_[m]) && left<=right);"
 		// but we only want to use the '<' operator.
-		// the same in next line, it is "(element == array[m])"
+		// the same in next line, it is "(element == CArray_[m])"
 
 		if (!(key < data[m].key) && !(data[m].key < key))
 			return m;
@@ -662,7 +662,7 @@ public:
 	}
 
 
-	//! Erases an element from the array.
+	//! Erases an element from the CArray_.
 	/** May be slow, because all elements following after the erased
 	element have to be copied.
 	\param index: Index of element to be erased. */
@@ -683,7 +683,7 @@ public:
 	}
 
 
-	//! Erases some elements from the array.
+	//! Erases some elements from the CArray_.
 	/** May be slow, because all elements following after the erased
 	element have to be copied.
 	\param index: Index of the first element to be erased.
@@ -712,7 +712,7 @@ public:
 	}
 
 
-	//! Sets if the array is sorted
+	//! Sets if the CArray_ is sorted
 	void set_sorted(bool _is_sorted)
 	{
 		is_sorted = _is_sorted;
@@ -764,7 +764,7 @@ void	itemSwap(T *TA, T*TB)
 }
 
 template<typename T>
-void	RandomMixArray_( array<T> &array__, int iMixTime = 1 )
+void	RandomMixArray_( CArray_<T> &array__, int iMixTime = 1 )
 {
 	int iCnt = array__.size();
 

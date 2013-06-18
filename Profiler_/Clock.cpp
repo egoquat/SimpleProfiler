@@ -40,15 +40,7 @@ void CClock::BeginMeasureTick( void)
 void CClock::EndMeasureTick( void)
 {
 	// 현재 시간 얻기
-	/*DWORD dwTrashTick = ::GetTickCount();
-	DWORD dwCurrentTick;
-	while ( dwTrashTick == ( dwCurrentTick = ::GetTickCount()))
-	{	// 정확한 결과를 위해서 Tick 이 갱신된 직후의 값을 사용한다.
-	}*/
 	LONGLONG llCurrentCustomTick = GetCustomTick();
-
-	// 비율계산
-	//m_llCustomTickPerMillisecond = ( llCurrentCustomTick - m_llMeasureCustomTick) / ( dwCurrentTick - m_dwMeasureTick);
 	LARGE_INTEGER liFrequency;
 	QueryPerformanceFrequency( &liFrequency);
 	m_llCustomTickPerMillisecond = liFrequency.QuadPart / 1000;
@@ -68,7 +60,6 @@ void CClock::AutoMeasure( DWORD dwMillisecond)
 	EndMeasureTick();
 }
 
-
 BOOL CClock::SetFramePerSecond( int iMaxFramePerSecond, BOOL bEnableRenderOnly, 
 							   int iMinFramePerSecond, BOOL bFixedFrame)
 {
@@ -80,7 +71,6 @@ BOOL CClock::SetFramePerSecond( int iMaxFramePerSecond, BOOL bEnableRenderOnly,
 	m_bFixedFrame = bFixedFrame;
 	return ( TRUE);
 }
-
 
 WORD CClock::CheckFrameSkipping( DWORD *pdwTick)
 {
@@ -109,7 +99,6 @@ WORD CClock::CheckFrameSkipping( DWORD *pdwTick)
 			m_llLatestFrameTick += ( llElapsedTick < llMinTickPerFrame) ? llElapsedTick : llMinTickPerFrame;
 		}
 		else
-			//}
 		{
 			m_llLatestFrameTick += llTickPerFrame;
 		}
@@ -121,7 +110,6 @@ WORD CClock::CheckFrameSkipping( DWORD *pdwTick)
 		m_dwLatestFrameMoveTick = dwCurrentTick;
 
 		// 그리기도 하는지 체크
-		//if ( llCurrentCustomTick - m_llLatestFrameTick <= llTickPerFrame)
 		if ( llCurrentCustomTick - m_llLatestFrameTick <= llTickPerFrame ||
 			( dwCurrentTick - m_dwLatestRenderTick > 5000))
 		{
@@ -145,9 +133,6 @@ WORD CClock::CheckFrameSkipping( DWORD *pdwTick)
 
 	return ( 0);
 }
-
-
-
 
 void CClock::Reset( void)
 {

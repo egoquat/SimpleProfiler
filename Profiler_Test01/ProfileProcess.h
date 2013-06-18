@@ -116,8 +116,8 @@ public:
 	CClock			*m_pClock;
 	CProfiler		*m_pProfiler;
 
-	array<Item>		m_arrItems;
-	array<int>		m_arrSearchIdxs;
+	CArray_<Item>		m_arrItems;
+	CArray_<int>		m_arrSearchIdxs;
 
 	FILE			*m_Stream;
 
